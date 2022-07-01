@@ -14,7 +14,6 @@ ENV LANG=C.UTF-8 \
   BUNDLE_RETRY=3
 
 RUN gem update --system && gem install bundler
-RUN bin/setup
 
 WORKDIR /usr/src/app
 
