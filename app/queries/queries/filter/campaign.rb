@@ -2,21 +2,32 @@ module Queries
   module Filter
     class Campaign < Queries::Base
       def call
-        @relation = @relation.where(organization_id: @params[:organization_ids]) if @params[:organization_ids]
-        @relation = @relation.where(id: @params[:person_ids]) if @params[:person_ids]
-        if @params[:archived]
-          if @params[:archived] == 'true'
-            @relation = @relation.archived
-          else
-            @relation = @relation.active
-          end
+        @relation = @relation.where(sector: @params[:sectors]) if @params[:sectors]
+        @relation = @relation.where(country: @params[countries]) if @params[:countries]
+        if @params[:percentage_raised_min] && @params[:percentage_raised_max]
+          @relation = @relation.where(
+            percentage_raised: @params[:percentage_raised_min]..@params[:percentage_raised_max]
+          )
         end
 
-        if %w(created_at updated_at).include?(@params[:filter]) && @params[:start_date] && @params[:end_date]
-          start_date = Date.parse @params[:start_date] rescue nil
-          end_date = Date.parse @params[:end_date] rescue nil
-          @relation = @relation.where("people.#{@params[:filter]}::date BETWEEN ? AND ?",
-                                      start_date, end_date)
+        if @params[:target_amount_min] && @params[:target_amount_max]
+          @relation = @relation.where(
+            target_amount: @params[:target_amount_min]..@params[:target_amount_max]
+          )
+        end
+
+        if @params[:investment_multiple_min] && @params[:investment_multiple_max]
+          @relation = @relation.where(
+            investment_multiple: @params[:investment_multiple_min]..@params[:investment_multiple_max]
+          )
+        end
+
+        if @params[:amount_raised_min]
+          @relation = @relation.select { |campaign| campaign.amount_raised >= @params[:amount_raised_min] }
+        end
+
+        if @params[:investor_count_min]
+          @relation = @relation.select { |campaign| campaign.investments.count >= @params[:investor_count_min] }
         end
 
         @relation

@@ -72,4 +72,10 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
+  gem 'factory_girl_rails'
+  gem 'rails-controller-testing'
+  gem 'rspec'
+  gem 'rspec-rails'
+  gem 'rspec_junit_formatter'
+  gem 'shoulda-matchers'
 end
