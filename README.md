@@ -48,6 +48,10 @@ In `Postman` create a new POST request with the url `localhost:3000/investments`
 This API has validation implemented. If params validations are not met, it will return
 meaningful errors
 
+```http
+POST localhost:3000/investments
+```
+
 In `Postman` just input the body as below with your desired values. 
 
 **You need to know the campaign id in order to make the investment**
