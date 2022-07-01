@@ -7,4 +7,10 @@ class Campaign < ApplicationRecord
   validates :sector, presence: true
   validates :country, presence: true
   validates :investment_multiple, presence: true, numericality: { greater_than: 0 }
+
+  def amount_raised
+    # This assumes that all campaigns and investments are in GBP
+    # Thus we have no currency field and no conversion is needed
+    investments.sum(:amount)
+  end
 end

@@ -31,3 +31,6 @@
 
 en:
   hello: "Hello world"
+  validation_messages:
+    investment:
+      amount: The investment multiple for the selected campaign is GBP %{investment_multiple} . You can only invest GBP %{investment_multiple}, GBP %{example_amount} and so on.
