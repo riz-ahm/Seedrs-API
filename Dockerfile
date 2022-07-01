@@ -1,24 +1,15 @@
-FROM ruby:3.1.2-slim
+FROM ruby:2.7.1
+RUN apt-get update -qq && apt-get install -y nodejs postgresql-client
+WORKDIR /app
+COPY Gemfile /app/Gemfile
+COPY Gemfile.lock /app/Gemfile.lock
+RUN bundle install
 
-RUN apt-get update -qq && apt-get install -yq --no-install-recommends \
-    build-essential \
-    gnupg2 \
-    less \
-    git \
-    libpq-dev \
-    postgresql-client \
-  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-ENV LANG=C.UTF-8 \
-  BUNDLE_JOBS=4 \
-  BUNDLE_RETRY=3
-
-RUN gem update --system && gem install bundler
-
-WORKDIR /usr/src/app
-
-ENTRYPOINT ["./entrypoint.sh"]
-
+# Add a script to be executed every time the container starts.
+COPY entrypoint.sh /usr/bin/
+RUN chmod +x /usr/bin/entrypoint.sh
+ENTRYPOINT ["entrypoint.sh"]
 EXPOSE 3000
 
-CMD ["bundle", "exec", "rails", "s", "-b", "0.0.0.0"]
+# Configure the main process to run when running the image
+CMD ["rails", "server", "-b", "0.0.0.0"]

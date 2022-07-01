@@ -9,8 +9,15 @@ The procedures to use these apis are described below with detailed explanation.
 ## How to run the project
 
 ### Docker
-To run the project simply run `docker-compose up`. And you are good to go!
+To run the project follow these steps:
+* run `docker compose build`
+* run `docker compose up`
+* open another terminal and run `mkdir tmp/db` **only for first run**
+* run `docker compose run web rails db:create` **only for first run**
+* run `docker compose run web rails db:migrate` **only for first run**
+* run `docker compose run web rails db:seed` **only for first run**
 
+You should be good to go! The project is now up and running.
 ## How to use the project
 
 To use the campaigns and investment APIs you would need the `Postman` tool
